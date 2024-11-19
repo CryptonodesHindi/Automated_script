@@ -4,6 +4,7 @@
 GREEN="\033[0;32m"     # Green
 YELLOW="\033[1;33m"    # Bright Yellow
 RED="\033[0;31m"       # Red
+BLUE="\033[0;34m"      # Blue
 NC="\033[0m"           # No Color
 
 # Display social details and channel information
@@ -69,6 +70,10 @@ echo -e "${GREEN}Grassbot script downloaded successfully!${NC}"
 
 # Create proxy.txt file
 echo -e "${YELLOW}Creating proxy.txt file...${NC}"
+echo -e "${BLUE}Ensure proxies are in the following format:${NC}"
+echo -e "${BLUE}username:password@hostname:port${NC}"
+echo -e "${BLUE}Example: socks5://2l4243pE33seQ4tQ:mf7rrfMnddHjd5S0@66.168.255.400:32209${NC}"
+
 sleep 7
 if command -v nano &> /dev/null; then
     nano proxy.txt
@@ -91,7 +96,7 @@ else
 fi
 
 # Prompt for proxies quantity
-echo -e "${YELLOW}Enter your proxies quantity:${NC}"
+echo -e "${YELLOW}Enter the number of proxies to use:${NC}"
 read -r PROXIES
 sed -i "s/active_proxies = random.sample(all_proxies, 1)/active_proxies = random.sample(all_proxies, $PROXIES)/" CryptonodeHindiGRASSBOT.py
 if [ $? -eq 0 ]; then
@@ -113,5 +118,5 @@ echo "==================================="
 echo -e "${YELLOW}Twitter: @CryptonodeHindi${NC}"
 echo -e "${YELLOW}YouTube: https://www.youtube.com/@CryptonodesHindi${NC}"
 echo -e "${YELLOW}Medium: https://medium.com/@cryptonodehindi${NC}"
-echo -e "${YELLOW}Join our Telegram for any support: https://t.me/cryptonodehindi${NC}"
+echo -e "${YELLOW}Join our Telegram for support: https://t.me/cryptonodehindi${NC}"
 echo "======================================================================"
