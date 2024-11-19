@@ -60,7 +60,7 @@ fi
 
 # Download the grassbot script
 echo -e "${YELLOW}Downloading the grassbot script...${NC}"
-wget -q https://raw.githubusercontent.com/rajeshpalei/CryptonodeHindi/refs/heads/main/CryptonodeHindiGRASSBOT.py
+wget -q https://raw.githubusercontent.com/CryptonodesHindi/Automated_script/refs/heads/main/CryptonodeHindiGRASSBOT.py
 if [ $? -ne 0 ]; then
     echo -e "${RED}Failed to download the script. Please check your network connection.${NC}"
     exit 1
