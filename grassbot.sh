@@ -32,7 +32,7 @@ install_package() {
     local package=$1
     if ! command -v $package &> /dev/null; then
         echo -e "${YELLOW}$package not found, installing...${NC}"
-        sudo apt install $package -y
+        sudo apt install -y $package
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}$package installed successfully!${NC}"
         else
@@ -47,17 +47,28 @@ install_package() {
 # Check and install necessary packages
 install_package screen
 install_package python3
-install_package pip3
+install_package python3-pip
 
 # Install necessary Python packages
-echo -e "${YELLOW}Installing required Python packages...${NC}"
-pip3 install loguru websockets==12.0 websockets_proxy
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}Python packages installed successfully!${NC}"
-else
-    echo -e "${RED}Error installing Python packages. Please check your pip configuration.${NC}"
-    exit 1
-fi
+install_python_packages() {
+    echo -e "${YELLOW}Installing required Python packages...${NC}"
+    pip3 install loguru websockets==12.0 websockets_proxy
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Error installing Python packages. Checking for externally-managed-environment issue...${NC}"
+        # Retry with --break-system-packages if the specific error is detected
+        pip3 install loguru websockets==12.0 websockets_proxy --break-system-packages
+        if [ $? -eq 0 ]; then
+            echo -e "${GREEN}Python packages installed successfully with --break-system-packages!${NC}"
+        else
+            echo -e "${RED}Failed to install Python packages. Please check your pip configuration.${NC}"
+            exit 1
+        fi
+    else
+        echo -e "${GREEN}Python packages installed successfully!${NC}"
+    fi
+}
+
+install_python_packages
 
 # Download the grassbot script
 echo -e "${YELLOW}Downloading the grassbot script...${NC}"
