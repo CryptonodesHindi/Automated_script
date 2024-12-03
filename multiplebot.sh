@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash  
 
 # Define color codes
 INFO='\033[0;36m'  # Cyan
@@ -59,6 +59,11 @@ cd multipleforlinux || { echo -e "${RED}Failed to enter directory multipleforlin
 echo -e "${GREEN}Giving permission to the files...${NC}"
 chmod +x multiple-cli
 chmod +x multiple-node
+
+# Set permissions for the Tracks directory
+echo -e "${GREEN}Setting permissions for the Tracks directory...${NC}"
+sudo chmod -R 755 /root/multipleforlinux/Tracks
+sudo chown -R root:root /root/multipleforlinux/Tracks
 
 # Add to PATH
 echo -e "${GREEN}Configuring PATH...${NC}"
