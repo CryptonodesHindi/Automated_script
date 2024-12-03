@@ -96,7 +96,6 @@ fi
 # Bind unique account identifier
 echo -e "${GREEN}Binding your account with identifier and PIN...${NC}"
 BIND_OUTPUT=$(./multiple-cli bind --bandwidth-download 100 --identifier "$IDENTIFIER" --pin "$PIN" --storage 200 --bandwidth-upload 100)
-
 if [[ $? -ne 0 ]]; then
     echo -e "${RED}Binding failed. Check the details below:${NC}"
     echo "$BIND_OUTPUT"
