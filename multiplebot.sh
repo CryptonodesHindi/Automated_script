@@ -1,4 +1,4 @@
-#!/bin/bash  
+#!/bin/bash
 
 # Define color codes
 INFO='\033[0;36m'  # Cyan
@@ -74,7 +74,7 @@ source ~/.bashrc
 echo -e "${GREEN}Setting permissions for the directory...${NC}"
 chmod -R 777 .
 
-# Prompt for IDENTIFIER and PIN
+# Prompt for IDENTIFIER, PIN, and STORAGE
 while [[ -z "$IDENTIFIER" ]]; do
     read -p "Enter your IDENTIFIER: " IDENTIFIER
     IDENTIFIER=$(echo "$IDENTIFIER" | xargs) # Sanitize input
@@ -83,6 +83,11 @@ done
 while [[ -z "$PIN" ]]; do
     read -p "Enter your PIN: " PIN
     PIN=$(echo "$PIN" | xargs) # Sanitize input
+done
+
+while [[ -z "$STORAGE" ]]; do
+    read -p "Enter your storage (in GB): " STORAGE
+    STORAGE=$(echo "$STORAGE" | xargs) # Sanitize input
 done
 
 # Start the node
@@ -95,7 +100,7 @@ fi
 
 # Bind unique account identifier
 echo -e "${GREEN}Binding your account with identifier and PIN...${NC}"
-BIND_OUTPUT=$(./multiple-cli bind --bandwidth-download 100 --identifier "$IDENTIFIER" --pin "$PIN" --storage 200 --bandwidth-upload 100)
+BIND_OUTPUT=$(./multiple-cli bind --bandwidth-download 100 --identifier "$IDENTIFIER" --pin "$PIN" --storage "$STORAGE" --bandwidth-upload 100)
 if [[ $? -ne 0 ]]; then
     echo -e "${RED}Binding failed. Check the details below:${NC}"
     echo "$BIND_OUTPUT"
@@ -122,6 +127,6 @@ echo "============================================"
 echo -e "${YELLOW}Telegram: ${GREEN}https://t.me/cryptonodehindi${NC}"
 echo -e "${YELLOW}Twitter: ${GREEN}@CryptonodeHindi${NC}"
 echo -e "${YELLOW}YouTube: ${GREEN}https://www.youtube.com/@CryptonodesHindi${NC}"
-echo -e "${YELLOW}Medium: ${CYAN}https://medium.com/@cryptonodehindi${NC}"
+echo -e "${YELLOW}Medium: ${INFO}https://medium.com/@cryptonodehindi${NC}"
 
 echo "============================================="
