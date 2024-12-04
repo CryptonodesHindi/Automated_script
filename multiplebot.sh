@@ -74,6 +74,11 @@ source ~/.bashrc
 echo -e "${GREEN}Setting permissions for the directory...${NC}"
 chmod -R 777 .
 
+# Display storage availability
+echo -e "${GREEN}Checking available storage...${NC}"
+available_storage=$(df -h --output=avail / | tail -n 1 | xargs)
+echo -e "${BLUE}Available storage on root partition: ${available_storage}${NC}"
+
 # Prompt for IDENTIFIER, PIN, and STORAGE
 while [[ -z "$IDENTIFIER" ]]; do
     read -p "Enter your IDENTIFIER: " IDENTIFIER
