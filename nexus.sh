@@ -51,6 +51,15 @@ sudo apt install protobuf-compiler -y
 echo -e "${INFO}Checking protoc version...${NC}"
 protoc --version
 
+# Install pkg-config
+echo -e "${INFO}Checking and installing pkg-config...${NC}"
+if ! command -v pkg-config &> /dev/null; then
+    echo -e "${INFO}pkg-config is not installed. Installing pkg-config...${NC}"
+    sudo apt install pkg-config -y
+else
+    echo -e "${INFO}pkg-config is already installed. Skipping installation.${NC}"
+fi
+
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
 CARGO_HOME="$HOME/.cargo"
