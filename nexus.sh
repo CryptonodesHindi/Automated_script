@@ -31,21 +31,18 @@ echo -e "${YELLOW}Medium: ${CYAN}https://medium.com/@cryptonodehindi${NC}"
 
 echo "============================================="
 
-# Install Rust and cargo
-echo -e "${INFO}Installing Rust and Cargo...${NC}"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-# Add Rust environment to the shell profile
-echo -e "${INFO}Adding Rust to environment...${NC}"
-source "$HOME/.cargo/env"
 
 # Update your system
 echo -e "${INFO}Updating your system...${NC}"
-sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update
+
+#Insntall the cargo
+apt install cargo -y
 
 # Install the lib package
 sudo apt install build-essential pkg-config libssl-dev git-all -y
 
-# Install the compiler
+#Install the complier
 sudo apt install -y protobuf-compiler
 
 # Display thank you message
