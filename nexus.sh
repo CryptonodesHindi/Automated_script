@@ -39,11 +39,16 @@ sudo apt-get update
 #Insntall the cargo
 apt install cargo -y
 
+#Install the rust
+apt install rustup -y
+
+
 # Install the lib package
-sudo apt install build-essential pkg-config libssl-dev git-all -y
+sudo apt install libssl-dev -y
 
 #Install the complier
 sudo apt install -y protobuf-compiler
+
 
 # Display thank you message
 echo "========================================"
