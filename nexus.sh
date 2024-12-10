@@ -47,18 +47,9 @@ fi
 echo -e "${INFO}Installing protobuf-compiler...${NC}"
 sudo apt install protobuf-compiler -y
 
-# Check protoc version
-echo -e "${INFO}Checking protoc version...${NC}"
-protoc --version
-
-# Install pkg-config
-echo -e "${INFO}Checking and installing pkg-config...${NC}"
-if ! command -v pkg-config &> /dev/null; then
-    echo -e "${INFO}pkg-config is not installed. Installing pkg-config...${NC}"
-    sudo apt install pkg-config -y
-else
-    echo -e "${INFO}pkg-config is already installed. Skipping installation.${NC}"
-fi
+# Reinstall pkg-config
+echo -e "${INFO}Reinstalling pkg-config...${NC}"
+sudo apt install --reinstall pkg-config -y
 
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
@@ -78,18 +69,7 @@ load_rust() {
 # Function to install system dependencies required for Rust
 install_dependencies() {
     echo -e "${YELLOW} Installing system dependencies required for Rust...${NC}"
-    if command -v apt &> /dev/null; then
-        sudo apt update && sudo apt install -y build-essential libssl-dev curl
-    elif command -v yum &> /dev/null; then
-        sudo yum groupinstall 'Development Tools' && sudo yum install -y openssl-devel curl
-    elif command -v dnf &> /dev/null; then
-        sudo dnf groupinstall 'Development Tools' && sudo dnf install -y openssl-devel curl
-    elif command -v pacman &> /dev/null; then
-        sudo pacman -Syu base-devel openssl curl
-    else
-        echo -e "${RED} Unsupported package manager. Please install dependencies manually.${NC}"
-        exit 1
-    fi
+    sudo apt update && sudo apt install -y build-essential libssl-dev curl
 }
 
 # Install system dependencies before checking for Rust
@@ -148,37 +128,6 @@ retry_cargo() {
     echo "Cargo is available in the current session."
     return 0
 }
-
-# Verify Rust and Cargo versions
-rust_version=$(rustc --version)
-cargo_version=$(cargo --version)
-
-echo "Rust version: $rust_version"
-echo "Cargo version: $cargo_version"
-
-# Add Rust environment variables to the appropriate shell profile (.bashrc or .zshrc)
-if [[ $SHELL == *"zsh"* ]]; then
-    PROFILE="$HOME/.zshrc"
-else
-    PROFILE="$HOME/.bashrc"
-fi
-
-# Add Rust environment variables if not already present
-if ! grep -q "CARGO_HOME" "$PROFILE"; then
-    echo "Adding Rust environment variables to $PROFILE..."
-    {
-        echo 'export RUSTUP_HOME="$HOME/.rustup"'
-        echo 'export CARGO_HOME="$HOME/.cargo"'
-        echo 'export PATH="$CARGO_HOME/bin:$PATH"'
-        echo 'source "$CARGO_HOME/env"'
-    } >> "$PROFILE"
-fi
-
-# Reload the profile automatically for the current session
-source "$PROFILE"
-
-# Force reload of cargo env in case the session doesn’t reflect it yet
-source "$CARGO_HOME/env"
 
 # Retry checking for Cargo availability
 retry_cargo
