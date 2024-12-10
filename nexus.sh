@@ -35,6 +35,14 @@ echo "============================================="
 echo -e "${INFO}Updating your system...${NC}"
 sudo apt update && sudo apt upgrade -y
 
+# Check if screen is installed, and install it if not
+if ! command -v screen &> /dev/null; then
+    echo -e "${INFO}Screen is not installed. Installing Screen...${NC}"
+    sudo apt install screen -y
+else
+    echo -e "${INFO}Screen is already installed. Skipping installation.${NC}"
+fi
+
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
 CARGO_HOME="$HOME/.cargo"
