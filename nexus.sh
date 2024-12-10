@@ -43,6 +43,14 @@ else
     echo -e "${INFO}Screen is already installed. Skipping installation.${NC}"
 fi
 
+# Install protobuf-compiler
+echo -e "${INFO}Installing protobuf-compiler...${NC}"
+sudo apt install protobuf-compiler -y
+
+# Check protoc version
+echo -e "${INFO}Checking protoc version...${NC}"
+protoc --version
+
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
 CARGO_HOME="$HOME/.cargo"
