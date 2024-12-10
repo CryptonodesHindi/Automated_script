@@ -31,6 +31,10 @@ echo -e "${YELLOW}Medium: ${CYAN}https://medium.com/@cryptonodehindi${NC}"
 
 echo "============================================="
 
+# Update your system
+echo -e "${INFO}Updating your system...${NC}"
+sudo apt update && sudo apt upgrade -y
+
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
 CARGO_HOME="$HOME/.cargo"
