@@ -51,6 +51,14 @@ sudo apt install protobuf-compiler -y
 echo -e "${INFO}Reinstalling pkg-config...${NC}"
 sudo apt install --reinstall pkg-config -y
 
+# Check if git is installed, and install it if not
+if ! command -v git &> /dev/null; then
+    echo -e "${YELLOW}Git is not installed. Installing Git...${NC}"
+    sudo apt install git -y
+else
+    echo -e "${INFO}Git is already installed. Skipping installation.${NC}"
+fi
+
 # Define the location where Rust will be installed
 RUSTUP_HOME="$HOME/.rustup"
 CARGO_HOME="$HOME/.cargo"
@@ -136,6 +144,10 @@ if [ $? -ne 0 ]; then
 fi
 
 # Display thank you message
+echo "==================================="
+echo -e "${YELLOW}           CryptonodeHindi       ${NC}"
+echo "==================================="
 echo "========================================"
 echo -e "${YELLOW} Thanks for using the script${NC}"
 echo -e "-------------------------------------"
+
