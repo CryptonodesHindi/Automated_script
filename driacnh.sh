@@ -114,10 +114,19 @@ curl -fsSL https://ollama.com/install.sh | sh
 echo -e "${YELLOW}Ollama version:${NC}"
 ollama --version
 
+# Start Ollama service
+echo -e "${YELLOW}Starting Ollama service...${NC}"
+ollama start &
+
 # Pull Ollama models
 echo -e "${YELLOW}Pulling Ollama models...${NC}"
 ollama pull hellord/mxbai-embed-large-v1:f16
 ollama pull llama3.1:latest
+
+
+# Test Ollama with a command
+echo -e "${YELLOW}Testing Ollama command...${NC}"
+ollama generate "Hello, Ollama!"
 
 # Install DKN Compute Node
 echo -e "${YELLOW}Installing DKN Compute Node...${NC}"
