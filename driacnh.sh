@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # Define color codes
 INFO='\033[0;36m'  # Cyan
@@ -30,7 +30,6 @@ echo -e "${YELLOW}YouTube: ${GREEN}https://www.youtube.com/@CryptonodesHindi${NC
 echo -e "${YELLOW}Medium: ${CYAN}https://medium.com/@cryptonodehindi${NC}"
 
 echo "============================================="
-
 
 # Update package lists and upgrade installed packages
 echo -e "${YELLOW}Updating and upgrading system packages...${NC}"
@@ -95,7 +94,6 @@ else
     echo "User is already in the Docker group."
 fi
 
-
 # Install Screen if not installed
 if command -v screen &> /dev/null; then
     echo -e "${YELLOW}Screen is already installed, skipping installation.${NC}"
@@ -104,9 +102,9 @@ else
     sudo apt install -y screen
 fi
 
-#Install the unzip
+# Install Unzip
 echo -e "${YELLOW}Installing Unzip...${NC}"
-apt install unzip
+sudo apt install -y unzip
 
 # Install Ollama
 echo -e "${YELLOW}Installing Ollama...${NC}"
@@ -116,13 +114,18 @@ curl -fsSL https://ollama.com/install.sh | sh
 echo -e "${YELLOW}Ollama version:${NC}"
 ollama --version
 
+# Pull Ollama models
+echo -e "${YELLOW}Pulling Ollama models...${NC}"
+ollama pull hellord/mxbai-embed-large-v1:f16
+ollama pull llama3.1:latest
+
 # Install DKN Compute Node
 echo -e "${YELLOW}Installing DKN Compute Node...${NC}"
 cd "$HOME"
 curl -L -o dkn-compute-node.zip https://github.com/firstbatchxyz/dkn-compute-launcher/releases/latest/download/dkn-compute-launcher-linux-amd64.zip
 unzip dkn-compute-node.zip
 
-echo -e "${YELLOW}Installation completed..${NC}"
+echo -e "${YELLOW}Installation completed.${NC}"
 
 echo "==================================="
 echo -e "${BANNER}           CryptonodeHindi       ${NC}"
