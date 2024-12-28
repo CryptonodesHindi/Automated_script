@@ -121,7 +121,7 @@ ollama start &
 # Pull Ollama models
 echo -e "${YELLOW}Pulling Ollama models...${NC}"
 ollama pull hellord/mxbai-embed-large-v1:f16
-ollama pull llama3.1:latest
+ollama pull llama3.2:1b
 
 # Install DKN Compute Node
 echo -e "${YELLOW}Installing DKN Compute Node...${NC}"
