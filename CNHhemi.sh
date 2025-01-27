@@ -74,7 +74,7 @@ if [ "$ARCHITECTURE" == "amd64" ]; then
     tar xvf heminetwork_v0.11.1_linux_amd64.tar.gz
 elif [ "$ARCHITECTURE" == "arm64" ]; then
     echo -e "${GREEN}Extracting arm64 tar file...${NC}"
-    tar xvf hheminetwork_v0.11.1_linux_arm64.tar.gz
+    tar xvf heminetwork_v0.11.1_linux_arm64.tar.gz
 fi
 
 # Step 7: Remove the downloaded tar.gz files
