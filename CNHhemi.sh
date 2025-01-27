@@ -59,10 +59,10 @@ echo -e "${INFO}System architecture: $ARCHITECTURE${NC}"
 # Step 5: Download the appropriate tarball based on architecture
 if [ "$ARCHITECTURE" == "amd64" ]; then
     echo -e "${GREEN}Downloading amd64 tar file...${NC}"
-    wget -q https://github.com/hemilabs/heminetwork/releases/download/v0.10.0/heminetwork_v0.10.0_linux_amd64.tar.gz
+    wget -q https://github.com/hemilabs/heminetwork/releases/download/v0.11.1/heminetwork_v0.11.1_linux_amd64.tar.gz
 elif [ "$ARCHITECTURE" == "arm64" ]; then
     echo -e "${GREEN}Downloading arm64 tar file...${NC}"
-    wget -q https://github.com/hemilabs/heminetwork/releases/download/v0.10.0/heminetwork_v0.10.0_linux_arm64.tar.gz
+    wget -q https://github.com/hemilabs/heminetwork/releases/download/v0.11.1/heminetwork_v0.11.1_linux_arm64.tar.gz
 else
     echo -e "${RED}Unsupported architecture: $ARCHITECTURE${NC}"
     exit 1
@@ -71,15 +71,15 @@ fi
 # Step 6: Extract the downloaded tar file
 if [ "$ARCHITECTURE" == "amd64" ]; then
     echo -e "${GREEN}Extracting amd64 tar file...${NC}"
-    tar xvf heminetwork_v0.10.0_linux_amd64.tar.gz
+    tar xvf heminetwork_v0.11.1_linux_amd64.tar.gz
 elif [ "$ARCHITECTURE" == "arm64" ]; then
     echo -e "${GREEN}Extracting arm64 tar file...${NC}"
-    tar xvf heminetwork_v0.10.0_linux_arm64.tar.gz
+    tar xvf hheminetwork_v0.11.1_linux_arm64.tar.gz
 fi
 
 # Step 7: Remove the downloaded tar.gz files
 echo -e "${YELLOW}Removing tar.gz files...${NC}"
-rm -f heminetwork_v0.10.0_linux_*.tar.gz
+rm -f heminetwork_v0.11.1_linux_*.tar.gz
 
 echo -e "${GREEN}Script execution completed successfully.${NC}"
 
