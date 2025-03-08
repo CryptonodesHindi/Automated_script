@@ -127,7 +127,7 @@ ollama pull llama3.2:1b
 # Install DKN Compute Node
 echo -e "${YELLOW}Installing DKN Compute Node...${NC}"
 cd "$HOME"
-wget -q https://github.com/firstbatchxyz/dkn-compute-launcher/releases/download/v0.1.0/dkn-compute-launcher-linux-amd64
+curl -fsSL https://dria.co/launcher | bash
 
 # Change the port in the configuration file
 echo -e "${YELLOW}Changing the port from 4001 to 4008 in the DKN configuration...${NC}"
