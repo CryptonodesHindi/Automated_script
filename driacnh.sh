@@ -130,16 +130,6 @@ echo -e "${YELLOW}Installing DKN Compute Node...${NC}"
 cd "$HOME"
 curl -fsSL https://dria.co/launcher | bash
 
-# Change the port in the configuration file
-echo -e "${YELLOW}Changing the port from 4001 to 4008 in the DKN configuration...${NC}"
-if [ -f /root/dkn-compute-node/.env ]; then
-    sudo sed -i 's|DKN_P2P_LISTEN_ADDR=/ip4/0.0.0.0/tcp/4001|DKN_P2P_LISTEN_ADDR=/ip4/0.0.0.0/tcp/4008|' /root/dkn-compute-node/.env
-    sudo ufw allow 4008/tcp
-    echo -e "${GREEN}Port changed and firewall updated successfully!${NC}"
-else
-    echo -e "${RED}Configuration file /root/dkn-compute-node/.env not found!${NC}"
-fi
-
 echo -e "${YELLOW}Installation completed.${NC}"
 
 echo "==================================="
