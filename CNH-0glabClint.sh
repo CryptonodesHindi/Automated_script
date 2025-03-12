@@ -114,7 +114,7 @@ else
 fi
 
 #Cloneing the 0g Lab git repo.
-git clone https://github.com/0glabs/0g-da-node.git
+git clone https://github.com/0glabs/0g-da-client.git
 
 # Go to DA-Client directory
 cd 0g-da-client
