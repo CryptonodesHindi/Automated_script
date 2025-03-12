@@ -131,7 +131,7 @@ echo -e "${GREEN}Private key received.${NC}"
 
 # Create envfile.env for configuration
 echo "Creating envfile.env..."
-cat <<EOF > config.env
+cat <<EOF > envfile.env
 COMBINED_SERVER_CHAIN_RPC=https://evmrpc-testnet.0g.ai
 COMBINED_SERVER_PRIVATE_KEY=$YOUR_PRIVATE_KEY
 ENTRANCE_CONTRACT_ADDR=0x857C0A28A8634614BB2C96039Cf4a20AFF709Aa9
