@@ -143,12 +143,6 @@ else
     echo -e "${INFO}NVM is already installed. Skipping Node.js setup.${NC}"
 fi
 
-# Install project dependencies
-echo -e "${INFO}Installing project dependencies...${NC}"
- sudo npm install
-
-
-
 # Display thank you message
 echo "========================================"
 echo -e "${YELLOW} Thanks for using the script${NC}"
