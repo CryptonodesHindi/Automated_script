@@ -4,8 +4,9 @@ BOLD="\e[1m"
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
+CYAN="\e[36m"
+MAGENTA="\e[35m"
 NC="\e[0m"
-
 
 cat << "EOF"
  ██████╗██████╗ ██╗   ██╗██████╗ ████████╗ ██████╗     ███╗   ██╗ ██████╗ ██████╗ ███████╗    ██╗  ██╗██╗███╗   ██╗██████╗ ██╗
@@ -16,7 +17,7 @@ cat << "EOF"
  ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝     ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝     ╚═╝    ╚═╝  ╚═╝╚═╝╚═╝   ╚═══╝╚═════╝ ╚═╝
 EOF
 
-echo -e "${RED} This script is exclusive for private members only. Do not share resources publicly.${NC}"
+echo -e "${RED} This script is intended for personal use by authorized members. Kindly avoid distributing it or its content publicly.${NC}"
 echo -e "------------------------------------------------------------"
 echo -e "${YELLOW} Want to join private? Reach out on Telegram: @CNHRajesh ${NC}"
 
@@ -26,7 +27,6 @@ echo -e "${YELLOW}YouTube: ${GREEN}https://www.youtube.com/@CryptonodesHindi${NC
 echo -e "${YELLOW}Medium: ${GREEN}https://medium.com/@cryptonodehindi${NC}"
 echo "======================================================="
 
-
 SWARM_DIR="$HOME/rl-swarm"
 TEMP_DATA_PATH="$SWARM_DIR/modal-login/temp-data"
 HOME_DIR="$HOME"
@@ -34,10 +34,10 @@ HOME_DIR="$HOME"
 cd $HOME
 
 if [ -f "$SWARM_DIR/swarm.pem" ]; then
-    echo -e "${BOLD}${YELLOW}You already have an existing ${GREEN}swarm.pem${YELLOW} file.${NC}\n"
-    echo -e "${BOLD}${YELLOW}Do you want to:${NC}"
-    echo -e "${BOLD}1) Use the existing swarm.pem${NC}"
-    echo -e "${BOLD}${RED}2) Delete existing swarm.pem and start fresh${NC}"
+    echo -e "${BOLD}${CYAN}Detected an existing ${GREEN}swarm.pem${CYAN} file in your setup.${NC}\n"
+    echo -e "${BOLD}${CYAN}Please choose how you'd like to continue:${NC}"
+    echo -e "${BOLD}${GREEN}1) Reuse the current swarm.pem file${NC}"
+    echo -e "${BOLD}${MAGENTA}2) Remove it and perform a fresh setup${NC}"
 
     while true; do
         read -p $'\e[1mEnter your choice (1 or 2): \e[0m' choice
