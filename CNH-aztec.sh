@@ -154,23 +154,13 @@ echo -e "\n${LIGHTBLUE}${BOLD}Please create a new EVM wallet, fund it with Sepol
 read -p "Enter your new evm wallet private key (with 0x prefix): " VALIDATOR_PRIVATE_KEY
 read -p "Enter the wallet address associated with the private key you just provided: " COINBASE_ADDRESS
 
-echo -e "\n${CYAN}${BOLD}---- CHECKING PORT AVAILABILITY ----${RESET}\n"
-if netstat -tuln | grep -q ":8080 "; then
-    echo -e "${LIGHTBLUE}${BOLD}Port 8080 is in use. Attempting to free it...${RESET}"
-    sudo fuser -k 8080/tcp
-    sleep 2
-    echo -e "${GREEN}${BOLD}Port 8080 has been freed successfully.${RESET}"
-else
-    echo -e "${GREEN}${BOLD}Port 8080 is already free and available.${RESET}"
-fi
-
 echo -e "\n${CYAN}${BOLD}----CNH-STARTING THE AZTEC NODE ----${RESET}\n"
 cat > $HOME/start_aztec_node.sh << EOL
 #!/bin/bash
 export PATH=\$PATH:\$HOME/.aztec/bin
 aztec start --node --archiver --sequencer \\
   --network alpha-testnet \\
-  --port 8080 \\
+  --port 9095 \\
   --l1-rpc-urls $L1_RPC_URL \\
   --l1-consensus-host-urls $L1_CONSENSUS_URL \\
   --sequencer.validatorPrivateKey $VALIDATOR_PRIVATE_KEY \\
