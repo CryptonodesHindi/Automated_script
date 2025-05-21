@@ -39,59 +39,45 @@ echo -e "=======================================================\n"
 echo -e "${YELLOW}Updating system packages...${NC}"
 sudo apt update -y && sudo apt upgrade -y
 
-# Install common dependencies
-echo -e "${CYAN}${BOLD}---- INSTALLING DEPENDENCIES ----${RESET}"
-sudo apt install -y curl screen git net-tools psmisc jq
-
-# Check and install Docker
-echo -e "\n${CYAN}${BOLD}---- CHECKING DOCKER INSTALLATION ----${RESET}"
-if ! command -v docker &>/dev/null; then
-    echo -e "${LIGHTBLUE}${BOLD}Docker not found. Installing Docker...${RESET}"
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sh get-docker.sh
-    sudo usermod -aG docker $USER
-    rm get-docker.sh
-    echo -e "${GREEN}${BOLD}Docker installed successfully!${RESET}"
-else
-    echo -e "${GREEN}${BOLD}Docker is already installed.${RESET}"
+cho -e "\n${CYAN}${BOLD}---- CHECKING DOCKER INSTALLATION ----${RESET}\n"
+if ! command -v docker &> /dev/null; then
+  echo -e "${LIGHTBLUE}${BOLD}Docker not found. Installing Docker...${RESET}"
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sh get-docker.sh
+  sudo usermod -aG docker $USER
+  rm get-docker.sh
+  echo -e "${GREEN}${BOLD}Docker installed successfully!${RESET}"
 fi
 
-# Allow Docker to run without sudo
-echo -e "${LIGHTBLUE}${BOLD}Setting up Docker to run without sudo...${RESET}"
+echo -e "${LIGHTBLUE}${BOLD}Setting up Docker to run without sudo for this session...${RESET}"
 if ! getent group docker > /dev/null; then
-    sudo groupadd docker
+  sudo groupadd docker
 fi
+
 sudo usermod -aG docker $USER
-sudo systemctl start docker
+
 if [ -S /var/run/docker.sock ]; then
-    sudo chmod 666 /var/run/docker.sock
-    echo -e "${GREEN}${BOLD}Docker socket permissions updated.${RESET}"
+  sudo chmod 666 /var/run/docker.sock
+  echo -e "${GREEN}${BOLD}Docker socket permissions updated.${RESET}"
 else
-    echo -e "${RED}${BOLD}Docker socket not found. Trying to start Docker...${RESET}"
-    sudo systemctl start docker
-    sudo chmod 666 /var/run/docker.sock
+  echo -e "${RED}${BOLD}Docker socket not found. Docker daemon might not be running.${RESET}"
+  echo -e "${LIGHTBLUE}${BOLD}Starting Docker daemon...${RESET}"
+  sudo systemctl start docker
+  sudo chmod 666 /var/run/docker.sock
 fi
 
 if docker info &>/dev/null; then
-    echo -e "${GREEN}${BOLD}Docker is working without sudo.${RESET}"
+  echo -e "${GREEN}${BOLD}Docker is now working without sudo.${RESET}"
 else
-    echo -e "${RED}${BOLD}Failed to configure Docker for non-root use. Defaulting to sudo.${RESET}"
-    DOCKER_CMD="sudo docker"
+  echo -e "${RED}${BOLD}Failed to configure Docker to run without sudo. Using sudo for Docker commands.${RESET}"
+  DOCKER_CMD="sudo docker"
 fi
 
-# Install Docker Compose
-if ! command -v docker-compose &>/dev/null; then
-    echo -e "${YELLOW}Installing Docker Compose...${NC}"
-    VER=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-    sudo curl -L "https://github.com/docker/compose/releases/download/$VER/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    echo -e "${GREEN}Docker Compose installed.${NC}"
-else
-    echo -e "${YELLOW}Docker Compose already installed.${NC}"
-fi
+echo -e "\n${CYAN}${BOLD}---- INSTALLING DEPENDENCIES ----${RESET}\n"
+sudo apt-get update
+sudo apt-get install -y curl screen net-tools psmisc jq
 
-# Clean previous Aztec setup
-[ -d $HOME/.aztec/alpha-testnet ] && rm -r $HOME/.aztec/alpha-testnet
+[ -d /root/.aztec/alpha-testnet ] && rm -r /root/.aztec/alpha-testnet
 
 AZTEC_PATH=$HOME/.aztec
 BIN_PATH=$AZTEC_PATH/bin
@@ -144,7 +130,7 @@ if [ -z "$IP" ]; then
     read -p "Please enter your VPS/WSL IP address: " IP
 fi
 
-echo -e "${LIGHTBLUE}${BOLD}Visit ${PURPLE}https://dashboard.alchemy.com/apps${RESET}${LIGHTBLUE}${BOLD} to create an account and get a Sepolia RPC URL.${RESET}"
+echo -e "${LIGHTBLUE}${BOLD}Visit ${PURPLE}https://dashboard.alchemy.com/apps${RESET}${LIGHTBLUE}${BOLD} or ${PURPLE}https://developer.metamask.io/register${RESET}${LIGHTBLUE}${BOLD} to create an account and get a Sepolia RPC URL.${RESET}"
 read -p "Enter Your Sepolia Ethereum RPC URL: " L1_RPC_URL
 
 echo -e "\n${LIGHTBLUE}${BOLD}Visit ${PURPLE}https://chainstack.com/global-nodes${RESET}${LIGHTBLUE}${BOLD} to create an account and get beacon RPC URL.${RESET}"
@@ -154,23 +140,34 @@ echo -e "\n${LIGHTBLUE}${BOLD}Please create a new EVM wallet, fund it with Sepol
 read -p "Enter your new evm wallet private key (with 0x prefix): " VALIDATOR_PRIVATE_KEY
 read -p "Enter the wallet address associated with the private key you just provided: " COINBASE_ADDRESS
 
+echo -e "\n${CYAN}${BOLD}---- CHECKING PORT AVAILABILITY ----${RESET}\n"
+if netstat -tuln | grep -q ":8080 "; then
+    echo -e "${LIGHTBLUE}${BOLD}Port 8080 is in use. Attempting to free it...${RESET}"
+    sudo fuser -k 8080/tcp
+    sleep 2
+    echo -e "${GREEN}${BOLD}Port 8080 has been freed successfully.${RESET}"
+else
+    echo -e "${GREEN}${BOLD}Port 8080 is already free and available.${RESET}"
+fi
 
-echo -e "\n${CYAN}${BOLD}----CNH-STARTING THE AZTEC NODE ----${RESET}\n"
+echo -e "\n${CYAN}${BOLD}---- STARTING AZTEC NODE ----${RESET}\n"
 cat > $HOME/start_aztec_node.sh << EOL
 #!/bin/bash
 export PATH=\$PATH:\$HOME/.aztec/bin
 aztec start --node --archiver --sequencer \\
   --network alpha-testnet \\
-  --port 9090 \\
+  --port 8080 \\
   --l1-rpc-urls $L1_RPC_URL \\
   --l1-consensus-host-urls $L1_CONSENSUS_URL \\
   --sequencer.validatorPrivateKey $VALIDATOR_PRIVATE_KEY \\
   --sequencer.coinbase $COINBASE_ADDRESS \\
-  --p2p.p2pIp $IP
+  --p2p.p2pIp $IP \\
+  --p2p.maxTxPoolSize 1000000000
 EOL
 
 chmod +x $HOME/start_aztec_node.sh
 screen -dmS aztec $HOME/start_aztec_node.sh
+
 
 echo -e "${GREEN}${BOLD} CNH- Aztec node started successfully in a screen session.${RESET}\n"
 
